@@ -1,20 +1,24 @@
-package observers;
-
-import observer.Observer;
-import observer.ServerMonitor;
+package observer;
 
 /**
- * Оповещение по SMS.
- * Срабатывает при статусе OFFLINE.
+ * Субъект (наблюдаемый объект).
+ * Определяет методы для управления подписчиками (наблюдателями).
  */
-public class SMSAlert implements Observer {
-    private final String phone = "+7-999-123-45-67";
+public interface Subject {
+    /**
+     * Подписать наблюдателя.
+     * @param o наблюдатель
+     */
+    void attach(Observer o);
 
-    @Override
-    public void update(ServerMonitor server) {
-        if ("OFFLINE".equals(server.getStatus())) {
-            System.out.printf("📱 SMS to %s: Server %s is DOWN!\n",
-                    phone, server.getName());
-        }
-    }
+    /**
+     * Отписать наблюдателя.
+     * @param o наблюдатель
+     */
+    void detach(Observer o);
+
+    /**
+     * Уведомить всех подписанных наблюдателей об изменении состояния.
+     */
+    void notifyObservers();
 }
